@@ -5,62 +5,40 @@ public class ScoopController : MonoBehaviour
     private bool isDragging = false;
     private bool isFilled = false;
 
-    public Transform jarPoint;
-    public Transform platePoint;
-
     public TutorialManager tutorial;
+
+    private string currentZone = "";
 
     void OnMouseDown()
     {
-        if (tutorial.currentStep == TutorialManager.Step.PickSpoon)
+        if (tutorial.currentStep == TutorialManager.Step.PickSpoon ||
+            tutorial.currentStep == TutorialManager.Step.ScoopDone)
         {
             isDragging = true;
-            tutorial.currentStep = TutorialManager.Step.MoveToJar;
-            tutorial.tutorialText.text = "Drag to jar";
-        }
-
-        else if (tutorial.currentStep == TutorialManager.Step.ScoopDone && isFilled)
-        {
-            isDragging = true;
-            tutorial.currentStep = TutorialManager.Step.MoveToPlate;
-            tutorial.tutorialText.text = "Drag to plate";
         }
     }
 
     void OnMouseUp()
     {
-        if (tutorial.currentStep == TutorialManager.Step.MoveToJar)
+        isDragging = false;
+
+        // Kavanozda býrakýldýysa
+        if (currentZone == "Jar" && !isFilled)
         {
-            isDragging = false;
-
-            transform.position = jarPoint.position;
             isFilled = true;
-
             tutorial.OnScoopDone();
         }
 
-        else if (tutorial.currentStep == TutorialManager.Step.MoveToPlate && isFilled)
+        // Tabakta býrakýldýysa
+        else if (currentZone == "Plate" && isFilled)
         {
-            isDragging = false;
-
-            transform.position = platePoint.position;
+            isFilled = false;
 
             FindObjectOfType<BeadSpawner>().SpawnFixedBeads();
+            FindObjectOfType<ResultManager>().ShowResult(5, 3, 4);
 
             tutorial.OnPour();
-            FindObjectOfType<EndDayManager>().EnableEndDay();
-
-            Invoke("CoinsDone", 1f);
-            void CoinsDone()
-            {
-                FindObjectOfType<TutorialManager>().OnCoinsDone();
-            }
         }
-    }
-
-    void CoinsDone()
-    {
-        FindObjectOfType<TutorialManager>().OnCoinsDone();
     }
 
     void Update()
@@ -71,5 +49,20 @@ public class ScoopController : MonoBehaviour
             mousePos.z = 0;
             transform.position = mousePos;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Jar"))
+            currentZone = "Jar";
+
+        if (other.CompareTag("Plate"))
+            currentZone = "Plate";
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Jar") || other.CompareTag("Plate"))
+            currentZone = "";
     }
 }
