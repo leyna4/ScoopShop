@@ -3,6 +3,7 @@ using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
+    public EndDayManager endDayManager;
     public TextMeshProUGUI tutorialText;
     public GameObject endDayPanel;
 
@@ -43,8 +44,17 @@ public class TutorialManager : MonoBehaviour
 
     public void OnPour()
     {
-        currentStep = Step.Coins;
-        tutorialText.text = "You earned coins!";
+        currentStep = Step.MoveToPlate;
+        tutorialText.text = "Check your result and press ->";
+    }
+
+    public void OnPackingStarted()
+    {
+        Debug.Log("OnPackingStarted çaðrýldý");
+        if (tutorialText == null)
+            Debug.LogError("tutorialText NULL!");
+        else
+            tutorialText.text = "Drag items from the shelves into the box!";
     }
 
     public void OnCoinsDone()
@@ -56,5 +66,14 @@ public class TutorialManager : MonoBehaviour
     {
         currentStep = Step.Done;
         tutorialText.text = "Next Day!";
+    }
+    public void OnItemPacked()
+    {
+        tutorialText.text = "Keep packing! Press Ready when done.";
+    }
+
+    public void OnOrderSent()
+    {
+        tutorialText.text = "Order sent! Well done!";
     }
 }

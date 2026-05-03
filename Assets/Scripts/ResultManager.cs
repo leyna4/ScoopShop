@@ -13,17 +13,24 @@ public class ResultManager : MonoBehaviour
 
     public void ShowResult(int p, int r, int b)
     {
-        pink = p;
-        red = r;
-        blue = b;
+        Debug.Log("ShowResult çaðrýldý: " + p + " " + r + " " + b);
+        pink = p; red = r; blue = b;
+
+        // Sipariþ panelini kapat
+        GameObject orderPanel = GameObject.Find("MessagePanel");
+        if (orderPanel != null) orderPanel.SetActive(false);
 
         panel.SetActive(true);
-
         customerText.text = "Customer 1";
-
         itemListText.text =
             p + " Hair Clips\n" +
             r + " Wet Wipes\n" +
             b + " Nail Polish";
+    }
+    public void OnNextArrowClicked()
+    {
+        panel.SetActive(false);
+        FindObjectOfType<GameManager>().StartPackingPhase();
+        FindObjectOfType<TutorialManager>().OnPackingStarted();
     }
 }

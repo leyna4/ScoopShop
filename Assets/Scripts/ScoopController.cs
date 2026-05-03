@@ -29,13 +29,17 @@ public class ScoopController : MonoBehaviour
             tutorial.OnScoopDone();
         }
 
-        // Tabakta býrakýldýysa
         else if (currentZone == "Plate" && isFilled)
         {
             isFilled = false;
+            BeadSpawner spawner = FindObjectOfType<BeadSpawner>();
+            spawner.SpawnFixedBeads();
 
-            FindObjectOfType<BeadSpawner>().SpawnFixedBeads();
-            FindObjectOfType<ResultManager>().ShowResult(5, 3, 4);
+            ResultManager rm = FindObjectOfType<ResultManager>(true); // true = inactive de ara
+            if (rm != null)
+                rm.ShowResult(spawner.pink, spawner.red, spawner.blue);
+            else
+                Debug.LogError("ResultManager bulunamadý!");
 
             tutorial.OnPour();
         }

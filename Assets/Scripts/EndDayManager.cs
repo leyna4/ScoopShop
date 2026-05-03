@@ -6,41 +6,40 @@ public class EndDayManager : MonoBehaviour
 {
     public Button endDayButton;
     public Button nextDayButton;
-
-    public Image checkbox;
     public TextMeshProUGUI taskText;
-
-    private bool taskCompleted = false;
 
     void Start()
     {
-        endDayButton.interactable = false;
-        nextDayButton.gameObject.SetActive(false);
-
-        taskText.text = "⬜ Earn Coins";
+        if (endDayButton != null)
+            endDayButton.interactable = false;
+        if (nextDayButton != null)
+            nextDayButton.gameObject.SetActive(false);
+        if (taskText != null)
+            taskText.text = "Earn Coins";
     }
 
-    // 💰 Coin kazanıldıktan sonra çağrılacak
     public void EnableEndDay()
     {
-        taskCompleted = true;
-        endDayButton.interactable = true;
+        gameObject.SetActive(true);
+        Debug.Log("EnableEndDay çalıştı");
+        if (endDayButton != null)
+        {
+            endDayButton.interactable = true;
+            Debug.Log("Button aktif edildi");
+        }
+        else
+        {
+            Debug.LogError("endDayButton NULL! Inspector'da bağla.");
+        }
     }
 
-    // 📋 End Day butonuna basınca
     public void OnEndDayClicked()
     {
-        if (!taskCompleted) return;
-
-        // checkbox tik
-        checkbox.color = Color.green;
-        taskText.text = "☑ Earn Coins";
-
-        // tutorial ilerlet
+        if (taskText != null)
+            taskText.text = "Day Complete!";
+        if (nextDayButton != null)
+            nextDayButton.gameObject.SetActive(true);
         FindObjectOfType<TutorialManager>().tutorialText.text = "Day Complete!";
-
-        // next day aç
-        nextDayButton.gameObject.SetActive(true);
     }
 
     public void OnNextDay()
