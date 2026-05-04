@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PackingItem : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler
+    IBeginDragHandler,
+    IDragHandler,
+    IEndDragHandler
 {
     public enum ItemType { Pink, Red, Blue }
     public ItemType itemType;
@@ -16,7 +20,7 @@ public class PackingItem : MonoBehaviour,
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        canvas = FindObjectOfType<Canvas>();
+        canvas = GetComponentInParent<Canvas>();
 
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
@@ -25,11 +29,8 @@ public class PackingItem : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Baþlangýç pozisyonunu kaydet
         startParent = transform.parent;
         startAnchoredPos = rectTransform.anchoredPosition;
-
-        // Canvas'a taþý üstte görünsün
         transform.SetParent(canvas.transform, true);
         transform.SetAsLastSibling();
         canvasGroup.blocksRaycasts = false;
@@ -44,7 +45,6 @@ public class PackingItem : MonoBehaviour,
     {
         canvasGroup.blocksRaycasts = true;
 
-        // BoxZone'a býrakýldý mý?
         GameObject boxZone = GameObject.FindWithTag("BoxZone");
         if (boxZone == null)
         {
@@ -56,12 +56,16 @@ public class PackingItem : MonoBehaviour,
         if (RectTransformUtility.RectangleContainsScreenPoint(
             boxRect, eventData.position, eventData.pressEventCamera))
         {
-            // Kutuya býrak
             transform.SetParent(boxZone.transform, true);
             rectTransform.anchoredPosition = new Vector2(
                 Random.Range(-50f, 50f),
                 Random.Range(-25f, 25f));
-            FindObjectOfType<PackingManager>().ItemAddedToBox(gameObject);
+
+            PackingManager pm = FindObjectOfType<PackingManager>(true);
+            if (pm != null)
+                pm.ItemAddedToBox(gameObject);
+            else
+                Debug.LogError("PackingManager bulunamadý!");
         }
         else
         {

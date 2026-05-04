@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class ShelfSpawner : MonoBehaviour
@@ -8,16 +8,15 @@ public class ShelfSpawner : MonoBehaviour
     public GameObject redItemPrefab;
     public GameObject blueItemPrefab;
 
-    [Header("Spawn Noktalarý")]
+    [Header("Spawn NoktalarÄ±")]
     public Transform shelf1Slots;
     public Transform shelf2Slots;
     public Transform shelf3Slots;
 
-    [Header("Düzen")]
-    public float itemSpacing = 70f;   // yatay aralýk
-    public float rowSpacing = 70f;    // dikey aralýk (sýra aralýðý)
-    public int itemsPerRow = 5;       // her sýrada max item
-    public int totalItems = 15;       // toplam spawn sayýsý
+    [Header("DÃ¼zen")]
+    public float itemSpacing = 70f;
+    public int itemsPerRow = 5;
+    public int totalItems = 15;
 
     private List<GameObject> spawnedItems = new List<GameObject>();
 
@@ -36,16 +35,12 @@ public class ShelfSpawner : MonoBehaviour
     {
         for (int i = 0; i < totalItems; i++)
         {
-            int col = i % itemsPerRow;
-            int row = i / itemsPerRow;
+            GameObject item = Instantiate(prefab, parent); // ðŸ”¥ BURASI KRÄ°TÄ°K
 
-            float x = col * itemSpacing;
-            float y = -row * rowSpacing;
-
-            GameObject item = Instantiate(prefab, parent, false); // false = world position'ý koru
             RectTransform rt = item.GetComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2(x, y);
-            rt.localScale = Vector3.one; // scale bozulmasýn
+            rt.localScale = Vector3.one;
+            rt.anchoredPosition = Vector2.zero; // Grid kullanÄ±yorsan bu yeterli
+
             spawnedItems.Add(item);
         }
     }

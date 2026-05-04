@@ -1,36 +1,38 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject ScoopArea;
     public GameObject PackingArea;
+    public BeadSpawner beadSpawner;
+    public ShelfSpawner shelfSpawner;      // â† direkt referans
+    public PackingManager packingManager;   // â† direkt referans
 
     public void StartPackingPhase()
     {
-        Debug.Log("StartPackingPhase çağrıldı");
-        Debug.Log("PackingArea: " + PackingArea);
-        Debug.Log("ScoopArea: " + ScoopArea);
+        Debug.Log("StartPackingPhase Ã§aÄŸrÄ±ldÄ±");
 
-        // Bead'leri temizle
-        FindObjectOfType<BeadSpawner>().ClearBeads();
+        beadSpawner.ClearBeads();
 
         ScoopArea.SetActive(false);
         PackingArea.SetActive(true);
 
         ResultManager rm = FindObjectOfType<ResultManager>(true);
-        ShelfSpawner spawner = FindObjectOfType<ShelfSpawner>();
-        PackingManager pm = FindObjectOfType<PackingManager>(true);
+        if (rm == null) { Debug.LogError("ResultManager null!"); return; }
 
-        spawner.SpawnItems(rm.pink, rm.red, rm.blue);
+        if (shelfSpawner == null) { Debug.LogError("ShelfSpawner null!"); return; }
+        if (packingManager == null) { Debug.LogError("PackingManager null!"); return; }
 
-        pm.requiredPink = rm.pink;
-        pm.requiredRed = rm.red;
-        pm.requiredBlue = rm.blue;
+        shelfSpawner.SpawnItems(rm.pink, rm.red, rm.blue);
+
+        packingManager.requiredPink = rm.pink;
+        packingManager.requiredRed = rm.red;
+        packingManager.requiredBlue = rm.blue;
 
         TutorialManager tm = FindObjectOfType<TutorialManager>();
         if (tm != null)
             tm.OnPackingStarted();
         else
-            Debug.LogError("TutorialManager bulunamadı!");
+            Debug.LogError("TutorialManager null!");
     }
 }
