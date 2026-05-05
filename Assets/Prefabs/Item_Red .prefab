@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 91463464497515158}
   - component: {fileID: 3476454931287476492}
   - component: {fileID: 8063115815955423181}
-  - component: {fileID: 1074605355557681368}
   - component: {fileID: 8949967522933093221}
+  - component: {fileID: 3553369900728500630}
   m_Layer: 5
   m_Name: 'Item_Red '
   m_TagString: Untagged
@@ -77,19 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1074605355557681368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2754838471714417222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d962111002268254599961f8fa8a458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 1
 --- !u!225 &8949967522933093221
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -102,3 +89,16 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3553369900728500630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754838471714417222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d962111002268254599961f8fa8a458d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 1

@@ -4,28 +4,13 @@ using TMPro;
 public class OrderManager : MonoBehaviour
 {
     public TextMeshProUGUI coinText;
-
+    public int dailyCost = 20;
     private int coins = 0;
 
-    public int dailyCost = 20; // Günlük gider
-
-    public void Deliver(int score)
+    public void Deliver(int score, bool isCorrect)
     {
         coins += score;
         coinText.text = "Coins: " + coins;
-        Debug.Log("Kazanýlan: " + score + " | Toplam: " + coins);
-        CheckEndDay();
-    }
-
-    void CheckEndDay()
-    {
-        if (coins >= dailyCost)
-        {
-            Debug.Log("Next Day");
-        }
-        else
-        {
-            Debug.Log("GAME OVER");
-        }
+        FindObjectOfType<PhoneController>().RingAgain(true); // feedback modu
     }
 }

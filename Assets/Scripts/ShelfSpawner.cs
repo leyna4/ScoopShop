@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ShelfSpawner : MonoBehaviour
@@ -8,13 +8,13 @@ public class ShelfSpawner : MonoBehaviour
     public GameObject redItemPrefab;
     public GameObject blueItemPrefab;
 
-    [Header("Spawn Noktaları")]
-    public Transform shelf1Slots;
-    public Transform shelf2Slots;
-    public Transform shelf3Slots;
+    [Header("Raf Satirlari")]
+    public RectTransform shelf1Row;
+    public RectTransform shelf2Row;
+    public RectTransform shelf3Row;
 
-    [Header("Düzen")]
-    public float itemSpacing = 70f;
+    [Header("Ayarlar")]
+    public float itemSpacing = 55f;
     public int itemsPerRow = 5;
     public int totalItems = 15;
 
@@ -26,21 +26,25 @@ public class ShelfSpawner : MonoBehaviour
             Destroy(item);
         spawnedItems.Clear();
 
-        SpawnRow(pinkItemPrefab, shelf1Slots);
-        SpawnRow(redItemPrefab, shelf2Slots);
-        SpawnRow(blueItemPrefab, shelf3Slots);
+        SpawnToShelf(pinkItemPrefab, shelf1Row);
+        SpawnToShelf(redItemPrefab, shelf2Row);
+        SpawnToShelf(blueItemPrefab, shelf3Row);
     }
 
-    void SpawnRow(GameObject prefab, Transform parent)
+    void SpawnToShelf(GameObject prefab, RectTransform parent)
     {
         for (int i = 0; i < totalItems; i++)
         {
-            GameObject item = Instantiate(prefab, parent); // 🔥 BURASI KRİTİK
+            int col = i % itemsPerRow;
 
+            GameObject item = Instantiate(prefab, parent);
             RectTransform rt = item.GetComponent<RectTransform>();
-            rt.localScale = Vector3.one;
-            rt.anchoredPosition = Vector2.zero; // Grid kullanıyorsan bu yeterli
-
+            rt.anchorMin = new Vector2(0, 0.5f);
+            rt.anchorMax = new Vector2(0, 0.5f);
+            rt.pivot = new Vector2(0, 0.5f);
+            rt.sizeDelta = new Vector2(50, 50);
+            rt.anchoredPosition = new Vector2(col * itemSpacing, 0);
+            item.transform.SetSiblingIndex(0);
             spawnedItems.Add(item);
         }
     }

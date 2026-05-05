@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
     public GameObject ScoopArea;
     public GameObject PackingArea;
     public BeadSpawner beadSpawner;
-    public ShelfSpawner shelfSpawner;      // ← direkt referans
-    public PackingManager packingManager;   // ← direkt referans
+    public ShelfSpawner shelfSpawner;
+    public PackingManager packingManager;
 
     public void StartPackingPhase()
     {
@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
         ResultManager rm = FindObjectOfType<ResultManager>(true);
         if (rm == null) { Debug.LogError("ResultManager null!"); return; }
-
         if (shelfSpawner == null) { Debug.LogError("ShelfSpawner null!"); return; }
         if (packingManager == null) { Debug.LogError("PackingManager null!"); return; }
 
@@ -34,5 +33,10 @@ public class GameManager : MonoBehaviour
             tm.OnPackingStarted();
         else
             Debug.LogError("TutorialManager null!");
+    }
+    public void StartLevel1()
+    {
+        Debug.Log("Level 1 başlıyor!");
+        // Şimdilik sadece log, level sistemi sonra gelecek
     }
 }

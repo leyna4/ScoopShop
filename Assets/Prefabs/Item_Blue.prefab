@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2463134382850523587}
   - component: {fileID: 6019361714744465483}
   - component: {fileID: 4137068400925297277}
-  - component: {fileID: 4268280354135773490}
   - component: {fileID: 2424823981541385854}
+  - component: {fileID: 7074053460534182593}
   m_Layer: 5
   m_Name: Item_Blue
   m_TagString: Untagged
@@ -77,19 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4268280354135773490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653912708915853926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d962111002268254599961f8fa8a458d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 2
 --- !u!225 &2424823981541385854
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -102,3 +89,16 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7074053460534182593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653912708915853926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d962111002268254599961f8fa8a458d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2

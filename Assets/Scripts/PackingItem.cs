@@ -1,12 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class PackingItem : MonoBehaviour,
-    IBeginDragHandler,
-    IDragHandler,
-    IEndDragHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public enum ItemType { Pink, Red, Blue }
     public ItemType itemType;
@@ -21,7 +18,6 @@ public class PackingItem : MonoBehaviour,
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
@@ -31,6 +27,7 @@ public class PackingItem : MonoBehaviour,
     {
         startParent = transform.parent;
         startAnchoredPos = rectTransform.anchoredPosition;
+        canvas = GetComponentInParent<Canvas>();
         transform.SetParent(canvas.transform, true);
         transform.SetAsLastSibling();
         canvasGroup.blocksRaycasts = false;
@@ -46,11 +43,7 @@ public class PackingItem : MonoBehaviour,
         canvasGroup.blocksRaycasts = true;
 
         GameObject boxZone = GameObject.FindWithTag("BoxZone");
-        if (boxZone == null)
-        {
-            GeriDon();
-            return;
-        }
+        if (boxZone == null) { GeriDon(); return; }
 
         RectTransform boxRect = boxZone.GetComponent<RectTransform>();
         if (RectTransformUtility.RectangleContainsScreenPoint(
@@ -60,12 +53,9 @@ public class PackingItem : MonoBehaviour,
             rectTransform.anchoredPosition = new Vector2(
                 Random.Range(-50f, 50f),
                 Random.Range(-25f, 25f));
-
             PackingManager pm = FindObjectOfType<PackingManager>(true);
             if (pm != null)
                 pm.ItemAddedToBox(gameObject);
-            else
-                Debug.LogError("PackingManager bulunamadý!");
         }
         else
         {

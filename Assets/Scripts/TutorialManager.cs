@@ -16,9 +16,12 @@ public class TutorialManager : MonoBehaviour
         ScoopDone,
         MoveToPlate,
         Pour,
-        Coins,
-        EndDay,
-        Confirm,
+        CheckResult,
+        PackItems,
+        ReadyToSend,
+        Deliver,
+        FeedbackCall,
+        NewOrder,
         Done
     }
 
@@ -27,50 +30,80 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         currentStep = Step.Phone;
-        tutorialText.text = "Check your phone";
+        tutorialText.text = "Your phone is ringing! Tap it.";
     }
 
     public void OnPhoneOpened()
     {
-        currentStep = Step.PickSpoon;
-        tutorialText.text = "Click the spoon";
+        currentStep = Step.ReadMessage;
+        tutorialText.text = "Read your customer's order!";
     }
 
     public void OnScoopDone()
     {
         currentStep = Step.ScoopDone;
-        tutorialText.text = "Scoop ready! Pick it again";
+        tutorialText.text = "Great! Now drag the spoon to the plate.";
     }
 
     public void OnPour()
     {
-        currentStep = Step.MoveToPlate;
-        tutorialText.text = "Check your result and press ->";
+        currentStep = Step.CheckResult;
+        tutorialText.text = "Check the result and press the arrow!";
     }
 
     public void OnPackingStarted()
     {
-        Debug.Log("OnPackingStarted çaðrýldý");
-        if (tutorialText == null)
-            Debug.LogError("tutorialText NULL!");
+        currentStep = Step.PackItems;
+        tutorialText.text = "Drag items from the shelves into the box!";
+    }
+
+    public void OnItemPacked()
+    {
+        if (currentStep == Step.PackItems)
+        {
+            currentStep = Step.ReadyToSend;
+            tutorialText.text = "Keep packing! Press Ready when done.";
+        }
+    }
+
+    public void OnReadyPressed()
+    {
+        currentStep = Step.Deliver;
+        tutorialText.text = "Press Deliver to send the order!";
+    }
+
+    public void OnDeliverPressed(bool isCorrect)
+    {
+        currentStep = Step.FeedbackCall;
+        if (isCorrect)
+            tutorialText.text = "Perfect order! Wait for customer feedback.";
         else
-            tutorialText.text = "Drag items from the shelves into the box!";
+            tutorialText.text = "Wrong order... Wait for customer feedback.";
+    }
+
+    public void OnFeedbackCall()
+    {
+        tutorialText.text = "Customer is calling! Tap the phone.";
+    }
+
+    public void OnNewOrder()
+    {
+        currentStep = Step.Phone;
+        tutorialText.text = "New order incoming! Tap your phone.";
     }
 
     public void OnCoinsDone()
     {
-        tutorialText.text = "Press End Day";
+        tutorialText.text = "Press End Day when ready!";
     }
 
     public void OnConfirm()
     {
         currentStep = Step.Done;
-        tutorialText.text = "Next Day!";
+        tutorialText.text = "Well done! You completed the tutorial!";
     }
-    public void OnItemPacked()
-    {
-        tutorialText.text = "Keep packing! Press Ready when done.";
-    }
+
+
 
     public void OnOrderSent()
     {

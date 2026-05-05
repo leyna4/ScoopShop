@@ -11,13 +11,9 @@ public class ScoopController : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (tutorial.currentStep == TutorialManager.Step.PickSpoon ||
-            tutorial.currentStep == TutorialManager.Step.ScoopDone)
-        {
-            isDragging = true;
-        }
+        Debug.Log("OnMouseDown - currentStep: " + tutorial.currentStep);
+        isDragging = true;
     }
-
     void OnMouseUp()
     {
         isDragging = false;
