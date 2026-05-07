@@ -30,7 +30,10 @@ public class ResultManager : MonoBehaviour
     public void OnNextArrowClicked()
     {
         panel.SetActive(false);
-        FindObjectOfType<GameManager>().StartPackingPhase();
-        FindObjectOfType<TutorialManager>().OnPackingStarted();
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null)
+            gm.StartPackingPhase();
+        else
+            Debug.LogError("GameManager bulunamadý!");
     }
 }

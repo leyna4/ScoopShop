@@ -34,16 +34,17 @@ public class FeedbackManager : MonoBehaviour
 
     void OnClose()
     {
-        Debug.Log("OnClose çaðrýldý");
         panel.SetActive(false);
 
-        TutorialCompleteManager tcm = FindObjectOfType<TutorialCompleteManager>(true);
-        if (tcm != null)
+        Level1Manager lm = FindObjectOfType<Level1Manager>();
+        if (lm != null && lm.IsLevelDone())
         {
-            Debug.Log("TutorialCompleteManager bulundu");
-            tcm.ShowCompleteWithDelay();
+            Debug.Log("Hedef tamamlandý, End Day bekle");
         }
         else
-            Debug.LogError("TutorialCompleteManager bulunamadý!");
+        {
+            FindObjectOfType<GameManager>().StartScoopPhase();
+            FindObjectOfType<PhoneController>().RingAgain(false);
+        }
     }
 }

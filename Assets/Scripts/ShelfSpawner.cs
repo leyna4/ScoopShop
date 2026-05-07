@@ -22,9 +22,15 @@ public class ShelfSpawner : MonoBehaviour
 
     public void SpawnItems(int pink, int red, int blue)
     {
+        Debug.Log("SpawnItems çaðrýldý: " + pink + " " + red + " " + blue);
+
         foreach (GameObject item in spawnedItems)
             Destroy(item);
         spawnedItems.Clear();
+
+        Debug.Log("Shelf1Row: " + shelf1Row);
+        Debug.Log("Shelf2Row: " + shelf2Row);
+        Debug.Log("Shelf3Row: " + shelf3Row);
 
         SpawnToShelf(pinkItemPrefab, shelf1Row);
         SpawnToShelf(redItemPrefab, shelf2Row);

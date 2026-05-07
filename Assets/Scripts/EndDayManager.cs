@@ -39,9 +39,13 @@ public class EndDayManager : MonoBehaviour
             taskText.text = "Day Complete!";
         if (nextDayButton != null)
             nextDayButton.gameObject.SetActive(true);
-        FindObjectOfType<TutorialManager>().tutorialText.text = "Day Complete!";
-    }
 
+        Level1Manager lm = FindObjectOfType<Level1Manager>();
+        if (lm != null)
+            lm.LevelComplete();
+        else
+            Debug.LogError("Level1Manager bulunamadı!");
+    }
     public void OnNextDay()
     {
         Debug.Log("NEXT DAY");

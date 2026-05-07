@@ -11,6 +11,12 @@ public class OrderManager : MonoBehaviour
     {
         coins += score;
         coinText.text = "Coins: " + coins;
-        FindObjectOfType<PhoneController>().RingAgain(true); // feedback modu
+
+        // Level1Manager'a coin bildir
+        Level1Manager lm = FindObjectOfType<Level1Manager>();
+        if (lm != null)
+            lm.AddCoins(score);
+
+        FindObjectOfType<PhoneController>().RingAgain(true);
     }
 }
