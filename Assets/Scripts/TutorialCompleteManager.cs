@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System.Collections;
 
 public class TutorialCompleteManager : MonoBehaviour
@@ -14,6 +13,19 @@ public class TutorialCompleteManager : MonoBehaviour
         startButton.onClick.AddListener(OnStartClicked);
     }
 
+    public void ShowCompleteWithDelay()
+    {
+        FindObjectOfType<GameManager>().StartCoroutine(DelayedShow());
+    }
+
+    IEnumerator DelayedShow()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Panel referansý: " + panel);
+        panel.SetActive(true);
+        Debug.Log("TutorialCompletePanel açýldý");
+    }
+
     public void ShowTutorialComplete()
     {
         panel.SetActive(true);
@@ -23,16 +35,5 @@ public class TutorialCompleteManager : MonoBehaviour
     {
         panel.SetActive(false);
         FindObjectOfType<GameManager>().StartLevel1();
-    }
-    void OnClose()
-    {
-        panel.SetActive(false);
-        StartCoroutine(ShowCompleteDelayed());
-    }
-
-    IEnumerator ShowCompleteDelayed()
-    {
-        yield return new WaitForSeconds(0.5f);
-        FindObjectOfType<TutorialCompleteManager>().ShowTutorialComplete();
     }
 }

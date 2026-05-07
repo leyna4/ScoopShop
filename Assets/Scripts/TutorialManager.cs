@@ -9,20 +9,10 @@ public class TutorialManager : MonoBehaviour
 
     public enum Step
     {
-        Phone,
-        ReadMessage,
-        PickSpoon,
-        MoveToJar,
-        ScoopDone,
-        MoveToPlate,
-        Pour,
-        CheckResult,
-        PackItems,
-        ReadyToSend,
-        Deliver,
-        FeedbackCall,
-        NewOrder,
-        Done
+        Phone, ReadMessage, PickSpoon, MoveToJar,
+        ScoopDone, MoveToPlate, Pour, CheckResult,
+        PackItems, ReadyToSend, Deliver, FeedbackCall,
+        NewOrder, Done
     }
 
     public Step currentStep;
@@ -102,8 +92,6 @@ public class TutorialManager : MonoBehaviour
         currentStep = Step.Done;
         tutorialText.text = "Well done! You completed the tutorial!";
     }
-
-
 
     public void OnOrderSent()
     {

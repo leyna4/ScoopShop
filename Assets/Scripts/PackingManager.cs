@@ -27,6 +27,7 @@ public class PackingManager : MonoBehaviour
 
     void Start()
     {
+        readyButton.gameObject.SetActive(true);
         readyButton.interactable = false;
         if (deliverButton != null)
             deliverButton.gameObject.SetActive(false);
@@ -36,7 +37,6 @@ public class PackingManager : MonoBehaviour
     {
         itemsInBox.Add(item);
         readyButton.interactable = true;
-
         if (tutorialManager != null)
             tutorialManager.OnItemPacked();
     }
@@ -54,20 +54,13 @@ public class PackingManager : MonoBehaviour
             else if (pi.itemType == PackingItem.ItemType.Blue) packedBlue++;
         }
 
-        // Doðru mu kontrol et
         isCorrectOrder = (packedPink == requiredPink &&
                           packedRed == requiredRed &&
                           packedBlue == requiredBlue);
 
-        // Tam ücret
         int fullScore = requiredPink * 2 + requiredRed * 3 + requiredBlue * 4;
-
-        // Doðruysa tam, yanlýþsa yarýsý
         pendingScore = isCorrectOrder ? fullScore : fullScore / 2;
 
-        Debug.Log("Doðru: " + isCorrectOrder + " | Skor: " + pendingScore);
-
-        // Kutu kapat
         if (boxOpen != null) boxOpen.SetActive(false);
         if (boxClosed != null) boxClosed.SetActive(true);
         if (shelfArea != null) shelfArea.SetActive(false);
@@ -76,7 +69,6 @@ public class PackingManager : MonoBehaviour
         if (deliverButton != null)
             deliverButton.gameObject.SetActive(true);
 
-        // Tutorial
         if (tutorialManager != null)
             tutorialManager.OnReadyPressed();
     }

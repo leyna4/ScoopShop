@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public void StartPackingPhase()
     {
+        
         Debug.Log("StartPackingPhase çağrıldı");
 
         beadSpawner.ClearBeads();
@@ -33,10 +34,12 @@ public class GameManager : MonoBehaviour
             tm.OnPackingStarted();
         else
             Debug.LogError("TutorialManager null!");
+        
     }
     public void StartLevel1()
     {
         Debug.Log("Level 1 başlıyor!");
         // Şimdilik sadece log, level sistemi sonra gelecek
     }
+   
 }

@@ -34,13 +34,16 @@ public class FeedbackManager : MonoBehaviour
 
     void OnClose()
     {
+        Debug.Log("OnClose çaðrýldý");
         panel.SetActive(false);
-        StartCoroutine(ShowCompleteDelayed());
-    }
 
-    IEnumerator ShowCompleteDelayed()
-    {
-        yield return new WaitForSeconds(0.5f);
-        FindObjectOfType<TutorialCompleteManager>().ShowTutorialComplete();
+        TutorialCompleteManager tcm = FindObjectOfType<TutorialCompleteManager>(true);
+        if (tcm != null)
+        {
+            Debug.Log("TutorialCompleteManager bulundu");
+            tcm.ShowCompleteWithDelay();
+        }
+        else
+            Debug.LogError("TutorialCompleteManager bulunamadý!");
     }
 }
