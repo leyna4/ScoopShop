@@ -6,7 +6,6 @@ public class ResultManager : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI customerText;
     public TextMeshProUGUI itemListText;
-
     public int pink;
     public int red;
     public int blue;
@@ -16,7 +15,6 @@ public class ResultManager : MonoBehaviour
         Debug.Log("ShowResult çaðrýldý: " + p + " " + r + " " + b);
         pink = p; red = r; blue = b;
 
-        // Sipariþ panelini kapat
         GameObject orderPanel = GameObject.Find("MessagePanel");
         if (orderPanel != null) orderPanel.SetActive(false);
 
@@ -27,13 +25,20 @@ public class ResultManager : MonoBehaviour
             r + " Wet Wipes\n" +
             b + " Nail Polish";
     }
+
+    public void ShowPanel()
+    {
+        if (panel != null) panel.SetActive(true);
+    }
+
+    public void HidePanel()
+    {
+        if (panel != null) panel.SetActive(false);
+    }
+
     public void OnNextArrowClicked()
     {
         panel.SetActive(false);
-        GameManager gm = FindObjectOfType<GameManager>();
-        if (gm != null)
-            gm.StartPackingPhase();
-        else
-            Debug.LogError("GameManager bulunamadý!");
+        FindObjectOfType<GameManager>().StartPackingPhase();
     }
 }

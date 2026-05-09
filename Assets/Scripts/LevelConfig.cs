@@ -6,12 +6,15 @@ public class LevelConfig : ScriptableObject
     [Header("Level Bilgisi")]
     public string levelName;
     public int levelNumber;
-
+    [Header("Urun Degerleri")]
+    public int hairClipValue = 5;
+    public int wetWipeValue = 8;
+    public int nailPolishValue = 10;
     [Header("Boncuk Ayarlari")]
     public int activeBoncukTypes = 1; // Level 1: 1, Level 2: 2, Level 3: 3
-    public int minBeadsPerScoop = 3;
-    public int maxBeadsPerScoop = 7;
-
+    [Header("Siparis Zorlugu")]
+    public int minBeadsPerType = 1;
+    public int maxBeadsPerType = 5;
     [Header("Ekonomi")]
     public int coinTarget = 50;      // hedef coin
     public int dailyCost = 0;        // Level 1'de gider yok

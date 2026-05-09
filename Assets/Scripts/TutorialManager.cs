@@ -3,7 +3,7 @@ using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
-    public EndDayManager endDayManager;
+    
     public TextMeshProUGUI tutorialText;
     public GameObject endDayPanel;
 

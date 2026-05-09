@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 027832ee28fa6e444a6e8fb6e9f27133, type: 3}
-  m_Name: Level1Config
+  m_Name: Level3Config
   m_EditorClassIdentifier: 
-  levelName: ' Level 1 - Soft Start'
-  levelNumber: 1
-  hairClipValue: 5
-  wetWipeValue: 8
-  nailPolishValue: 10
+  levelName: Day 3 - Variety
+  levelNumber: 3
   activeBoncukTypes: 3
-  minBeadsPerType: 1
-  maxBeadsPerType: 3
-  coinTarget: 50
-  dailyCost: 0
+  minBeadsPerType: 2
+  maxBeadsPerType: 5
+  coinTarget: 120
+  dailyCost: 30
   dailyCostIncrease: 0
   hasTimer: 0
   timerSeconds: 60

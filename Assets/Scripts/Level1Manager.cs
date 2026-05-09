@@ -34,12 +34,7 @@ public class Level1Manager : MonoBehaviour
         if (currentCoins >= levelConfig.coinTarget)
         {
             levelDone = true;
-            // Hedefe ulaþtý, End Day göster
-            EndDayManager edm = FindObjectOfType<EndDayManager>();
-            if (edm != null)
-                edm.EnableEndDay();
-            else
-                Debug.LogError("EndDayManager bulunamadý!");
+            Debug.Log("HEDEFE ULAÞILDI!");
         }
     }
 
@@ -54,9 +49,16 @@ public class Level1Manager : MonoBehaviour
     public void LevelComplete()
     {
         Debug.Log("LEVEL TAMAMLANDI!");
+        // Tüm etkileþimleri kilitle
+        FindObjectOfType<PhoneController>().enabled = false;
+        ScoopController sc = FindObjectOfType<ScoopController>();
+        if (sc != null) sc.enabled = false;
+
         if (levelCompletePanel != null)
             levelCompletePanel.SetActive(true);
     }
+
+    public bool IsLevelDone() => levelDone;
 
     public void OnNextLevelClicked()
     {
@@ -66,9 +68,5 @@ public class Level1Manager : MonoBehaviour
     public void OnRestartClicked()
     {
         SceneManager.LoadScene("Level1Scene");
-    }
-    public bool IsLevelDone()
-    {
-        return levelDone;
     }
 }

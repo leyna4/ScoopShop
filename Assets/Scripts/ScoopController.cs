@@ -38,6 +38,7 @@ public class ScoopController : MonoBehaviour
             if (tutorial != null)
                 tutorial.OnPour();
         }
+       
     }
 
     void Update()

@@ -5,17 +5,30 @@ public class BeadSpawner : MonoBehaviour
 {
     public GameObject beadPrefab;
     public Transform spawnPoint;
-    public int pink = 5;
-    public int red = 3;
-    public int blue = 4;
+
+    [Header("Level Limitleri")]
+    public int minPerType = 1;
+    public int maxPerType = 5;
+    public int activeBoncukTypes = 1;
+
+    [HideInInspector] public int pink;
+    [HideInInspector] public int red;
+    [HideInInspector] public int blue;
 
     private List<GameObject> spawnedBeads = new List<GameObject>();
 
     public void SpawnFixedBeads()
     {
+        pink = activeBoncukTypes >= 1 ? Random.Range(minPerType, maxPerType + 1) : 0;
+        red = activeBoncukTypes >= 2 ? Random.Range(minPerType, maxPerType + 1) : 0;
+        blue = activeBoncukTypes >= 3 ? Random.Range(minPerType, maxPerType + 1) : 0;
+
+        Debug.Log("Sipariþ: " + pink + " pink, " + red + " red, " + blue + " blue");
+
         SpawnBeads(pink);
         SpawnBeads(red);
         SpawnBeads(blue);
+
         BeadCounter counter = FindObjectOfType<BeadCounter>();
         if (counter != null)
             counter.Count(pink, red, blue);
@@ -25,10 +38,7 @@ public class BeadSpawner : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            GameObject bead = Instantiate(
-                beadPrefab,
-                spawnPoint.position,
-                Quaternion.identity);
+            GameObject bead = Instantiate(beadPrefab, spawnPoint.position, Quaternion.identity);
             spawnedBeads.Add(bead);
         }
     }
@@ -36,10 +46,7 @@ public class BeadSpawner : MonoBehaviour
     public void ClearBeads()
     {
         foreach (GameObject bead in spawnedBeads)
-        {
-            if (bead != null)
-                Destroy(bead);
-        }
+            if (bead != null) Destroy(bead);
         spawnedBeads.Clear();
     }
 }

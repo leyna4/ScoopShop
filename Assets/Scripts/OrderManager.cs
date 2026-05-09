@@ -10,12 +10,16 @@ public class OrderManager : MonoBehaviour
     public void Deliver(int score, bool isCorrect)
     {
         coins += score;
-        coinText.text = "Coins: " + coins;
+        if (coinText != null)
+            coinText.text = "" + coins;
 
-        // Level1Manager'a coin bildir
-        Level1Manager lm = FindObjectOfType<Level1Manager>();
+        LevelManager lm = FindObjectOfType<LevelManager>();
         if (lm != null)
             lm.AddCoins(score);
+
+        FeedbackManager fm = FindObjectOfType<FeedbackManager>(true);
+        if (fm != null)
+            fm.SetPendingFeedback(isCorrect, score);
 
         FindObjectOfType<PhoneController>().RingAgain(true);
     }

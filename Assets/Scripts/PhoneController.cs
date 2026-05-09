@@ -6,24 +6,15 @@ public class PhoneController : MonoBehaviour
 {
     public GameObject messagePanel;
     public TextMeshProUGUI messageText;
-    public GameObject feedbackPanel;
 
-    private bool isShaking = false;
-    private bool isClickable = false;
+    private bool isShaking = true;
+    private bool isClickable = true;
     private bool isFeedbackMode = false;
     private Vector3 startPos;
 
     void Start()
     {
         startPos = transform.position;
-        StartCoroutine(StartRinging());
-    }
-
-    IEnumerator StartRinging()
-    {
-        yield return new WaitForSeconds(0.5f);
-        isShaking = true;
-        isClickable = true;
     }
 
     void Update()
@@ -42,24 +33,25 @@ public class PhoneController : MonoBehaviour
 
         if (isFeedbackMode)
         {
-            // Feedback modunda feedback paneli aç
             isFeedbackMode = false;
-            feedbackPanel.SetActive(true);
+            FeedbackManager fm = FindObjectOfType<FeedbackManager>(true);
+            if (fm != null)
+                fm.ShowFeedback();
+            else
+                Debug.LogError("FeedbackManager bulunamadý!");
         }
         else
         {
-            // Normal modda sipariþ paneli aç
             messagePanel.SetActive(true);
             messageText.text = "Customer: 1 Scoop";
-            FindObjectOfType<TutorialManager>().OnPhoneOpened();
+            TutorialManager tm = FindObjectOfType<TutorialManager>();
+            if (tm != null) tm.OnPhoneOpened();
         }
     }
 
     public void RingAgain(bool feedbackMode)
     {
         isFeedbackMode = feedbackMode;
-        isShaking = false;
-        isClickable = false;
         StartCoroutine(DelayedRing());
     }
 
@@ -69,10 +61,5 @@ public class PhoneController : MonoBehaviour
         startPos = transform.position;
         isShaking = true;
         isClickable = true;
-
-        if (isFeedbackMode)
-            FindObjectOfType<TutorialManager>().OnFeedbackCall();
-        else
-            FindObjectOfType<TutorialManager>().OnNewOrder();
     }
 }

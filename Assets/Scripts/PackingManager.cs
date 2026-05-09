@@ -21,6 +21,9 @@ public class PackingManager : MonoBehaviour
     [Header("Tutorial")]
     public TutorialManager tutorialManager;
 
+    [Header("Level Config")]
+    public LevelConfig levelConfig;
+
     private List<GameObject> itemsInBox = new List<GameObject>();
     private int pendingScore = 0;
     private bool isCorrectOrder = false;
@@ -43,6 +46,11 @@ public class PackingManager : MonoBehaviour
 
     public void OnReadyClicked()
     {
+        FindObjectOfType<GameManager>().resultText.SetActive(false);
+        ResultManager rm = FindObjectOfType<ResultManager>(true);
+        if (rm != null) rm.HidePanel();
+
+
         int packedPink = 0, packedRed = 0, packedBlue = 0;
 
         foreach (GameObject item in itemsInBox)
@@ -58,8 +66,7 @@ public class PackingManager : MonoBehaviour
                           packedRed == requiredRed &&
                           packedBlue == requiredBlue);
 
-        int fullScore = requiredPink * 2 + requiredRed * 3 + requiredBlue * 4;
-        pendingScore = isCorrectOrder ? fullScore : fullScore / 2;
+        pendingScore = CalculateScore(packedPink, packedRed, packedBlue);
 
         if (boxOpen != null) boxOpen.SetActive(false);
         if (boxClosed != null) boxClosed.SetActive(true);
@@ -78,12 +85,29 @@ public class PackingManager : MonoBehaviour
         if (boxClosed != null) boxClosed.SetActive(false);
         deliverButton.gameObject.SetActive(false);
 
-        FeedbackManager fm = FindObjectOfType<FeedbackManager>(true);
-        if (fm != null)
-            fm.ShowFeedback(isCorrectOrder, pendingScore);
-
         FindObjectOfType<OrderManager>().Deliver(pendingScore, isCorrectOrder);
 
         itemsInBox.Clear();
+    }
+
+    int CalculateScore(int p, int r, int b)
+    {
+        int pinkValue = levelConfig != null ? levelConfig.hairClipValue : 5;
+        int redValue = levelConfig != null ? levelConfig.wetWipeValue : 8;
+        int blueValue = levelConfig != null ? levelConfig.nailPolishValue : 10;
+
+        int maxScore = requiredPink * pinkValue +
+                       requiredRed * redValue +
+                       requiredBlue * blueValue;
+
+        int penalty = 0;
+        penalty += Mathf.Max(0, requiredPink - p) * pinkValue;
+        penalty += Mathf.Max(0, requiredRed - r) * redValue;
+        penalty += Mathf.Max(0, requiredBlue - b) * blueValue;
+        penalty += Mathf.Max(0, p - requiredPink) * (pinkValue / 2);
+        penalty += Mathf.Max(0, r - requiredRed) * (redValue / 2);
+        penalty += Mathf.Max(0, b - requiredBlue) * (blueValue / 2);
+
+        return Mathf.Max(0, maxScore - penalty);
     }
 }
