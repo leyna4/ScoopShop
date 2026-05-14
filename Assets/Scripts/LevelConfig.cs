@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "ScoopShop/LevelConfig")]
@@ -27,4 +28,12 @@ public class LevelConfig : ScriptableObject
     [Header("Upgrade")]
     public bool canUpgradeScoop = false;
     public bool hasNewJar = false;
+
+    [Header("Gider Sistemi")]
+    public List<string> expenseNames;
+    public List<int> expenseCosts;
+
+    [Header("Kasik Sistemi")]
+    public int minScoops = 1;
+    public int maxScoops = 3;
 }

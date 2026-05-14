@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: ' Level 1 - Soft Start'
   levelNumber: 1
-  hairClipValue: 5
-  wetWipeValue: 8
-  nailPolishValue: 10
+  hairClipValue: 2
+  wetWipeValue: 3
+  nailPolishValue: 4
   activeBoncukTypes: 3
   minBeadsPerType: 1
-  maxBeadsPerType: 3
+  maxBeadsPerType: 2
   coinTarget: 50
   dailyCost: 0
   dailyCostIncrease: 0
@@ -27,3 +27,7 @@ MonoBehaviour:
   timerSeconds: 60
   canUpgradeScoop: 0
   hasNewJar: 0
+  expenseNames: []
+  expenseCosts: 
+  minScoops: 1
+  maxScoops: 3

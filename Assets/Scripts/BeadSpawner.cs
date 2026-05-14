@@ -19,19 +19,30 @@ public class BeadSpawner : MonoBehaviour
 
     public void SpawnFixedBeads()
     {
-        pink = activeBoncukTypes >= 1 ? Random.Range(minPerType, maxPerType + 1) : 0;
-        red = activeBoncukTypes >= 2 ? Random.Range(minPerType, maxPerType + 1) : 0;
-        blue = activeBoncukTypes >= 3 ? Random.Range(minPerType, maxPerType + 1) : 0;
+        int newPink = activeBoncukTypes >= 1 ? Random.Range(minPerType, maxPerType + 1) : 0;
+        int newRed = activeBoncukTypes >= 2 ? Random.Range(minPerType, maxPerType + 1) : 0;
+        int newBlue = activeBoncukTypes >= 3 ? Random.Range(minPerType, maxPerType + 1) : 0;
+
+        // Biriktir
+        pink += newPink;
+        red += newRed;
+        blue += newBlue;
 
         Debug.Log("Sipariþ: " + pink + " pink, " + red + " red, " + blue + " blue");
 
-        SpawnBeads(pink);
-        SpawnBeads(red);
-        SpawnBeads(blue);
+        SpawnBeads(newPink);
+        SpawnBeads(newRed);
+        SpawnBeads(newBlue);
 
         BeadCounter counter = FindObjectOfType<BeadCounter>();
         if (counter != null)
             counter.Count(pink, red, blue);
+    }
+
+    // Her yeni sipariþ baþýnda sýfýrla
+    public void ResetCounts()
+    {
+        pink = 0; red = 0; blue = 0;
     }
 
     void SpawnBeads(int count)

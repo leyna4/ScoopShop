@@ -43,12 +43,18 @@ public class GameManager : MonoBehaviour
     {
         PackingArea.SetActive(false);
         ScoopArea.SetActive(true);
-        if (resultText != null) resultText.SetActive(false);
+
+        // Timer'ı durdur
+        TimerManager timer = FindObjectOfType<TimerManager>();
+        if (timer != null) timer.StopTimer();
+
+        ResultManager rm = FindObjectOfType<ResultManager>(true);
+        if (rm != null) rm.HidePanel();
     }
     public void StartLevel1()
     {
         SceneManager.LoadScene("Level1Scene");
     }
 
-    
+   
 }

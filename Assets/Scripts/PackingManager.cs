@@ -88,13 +88,15 @@ public class PackingManager : MonoBehaviour
         FindObjectOfType<OrderManager>().Deliver(pendingScore, isCorrectOrder);
 
         itemsInBox.Clear();
+        TimerManager tm = FindObjectOfType<TimerManager>();
+        if (tm != null) tm.StopTimer();
     }
 
     int CalculateScore(int p, int r, int b)
     {
-        int pinkValue = levelConfig != null ? levelConfig.hairClipValue : 5;
-        int redValue = levelConfig != null ? levelConfig.wetWipeValue : 8;
-        int blueValue = levelConfig != null ? levelConfig.nailPolishValue : 10;
+        int pinkValue = levelConfig != null ? levelConfig.hairClipValue : 2;
+        int redValue = levelConfig != null ? levelConfig.wetWipeValue : 3;
+        int blueValue = levelConfig != null ? levelConfig.nailPolishValue : 4;
 
         int maxScore = requiredPink * pinkValue +
                        requiredRed * redValue +
@@ -109,5 +111,15 @@ public class PackingManager : MonoBehaviour
         penalty += Mathf.Max(0, b - requiredBlue) * (blueValue / 2);
 
         return Mathf.Max(0, maxScore - penalty);
+    }
+    public void ForceDeliver()
+    {
+        // Süre bitince ne varsa teslim et, 0 puan
+        if (boxClosed != null) boxClosed.SetActive(false);
+        if (deliverButton != null) deliverButton.gameObject.SetActive(false);
+        if (readyButton != null) readyButton.gameObject.SetActive(false);
+
+        FindObjectOfType<OrderManager>().Deliver(0, false);
+        itemsInBox.Clear();
     }
 }

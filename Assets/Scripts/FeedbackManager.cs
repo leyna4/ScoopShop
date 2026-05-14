@@ -8,7 +8,7 @@ public class FeedbackManager : MonoBehaviour
     public TextMeshProUGUI feedbackText;
     public TextMeshProUGUI coinRewardText;
     public Button closeButton;
-
+    public GameObject expensePanel;
     private bool pendingIsCorrect;
     private int pendingCoins;
 
@@ -47,7 +47,21 @@ public class FeedbackManager : MonoBehaviour
 
         LevelManager lm = FindObjectOfType<LevelManager>();
         if (lm != null && lm.IsLevelDone())
-            lm.LevelComplete();
+        {
+            LevelConfig config = lm.GetCurrentConfig();
+            if (config != null && config.dailyCost > 0)
+            {
+                if (expensePanel != null)
+                {
+                    expensePanel.SetActive(true);
+                    Debug.Log("ExpensePanel açýldý: " + expensePanel.activeSelf);
+                }
+                else
+                    Debug.LogError("expensePanel null! Inspector'da baðla.");
+            }
+            else
+                lm.LevelComplete();
+        }
         else
         {
             FindObjectOfType<GameManager>().StartScoopPhase();

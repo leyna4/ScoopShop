@@ -14,13 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Day 3 - Variety
   levelNumber: 3
+  hairClipValue: 2
+  wetWipeValue: 3
+  nailPolishValue: 4
   activeBoncukTypes: 3
-  minBeadsPerType: 2
-  maxBeadsPerType: 5
+  minBeadsPerType: 1
+  maxBeadsPerType: 3
   coinTarget: 120
-  dailyCost: 30
+  dailyCost: 50
   dailyCostIncrease: 0
-  hasTimer: 0
+  hasTimer: 1
   timerSeconds: 60
   canUpgradeScoop: 0
   hasNewJar: 0
+  expenseNames: []
+  expenseCosts: 
+  minScoops: 1
+  maxScoops: 3

@@ -10,24 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 027832ee28fa6e444a6e8fb6e9f27133, type: 3}
-  m_Name: Level2Config
+  m_Name: EndlessConfig
   m_EditorClassIdentifier: 
-  levelName: Day 2 - Pressure
-  levelNumber: 2
+  levelName: Endless
+  levelNumber: 0
   hairClipValue: 2
   wetWipeValue: 3
   nailPolishValue: 4
   activeBoncukTypes: 3
-  minBeadsPerType: 1
-  maxBeadsPerType: 2
-  coinTarget: 80
-  dailyCost: 33
+  minBeadsPerType: 2
+  maxBeadsPerType: 3
+  coinTarget: 150
+  dailyCost: 50
   dailyCostIncrease: 0
-  hasTimer: 0
+  hasTimer: 1
   timerSeconds: 60
   canUpgradeScoop: 0
   hasNewJar: 0
-  expenseNames: []
-  expenseCosts: 
+  expenseNames:
+  - Concert Ticket
+  - Water Bill
+  - Groceries
+  - Rent
+  - Phone Bill
+  expenseCosts: 0f0000000a00000008000000140000000c000000
   minScoops: 1
   maxScoops: 3

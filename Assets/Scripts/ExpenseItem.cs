@@ -11,34 +11,26 @@ public class ExpenseItem : MonoBehaviour
 
     private bool isPaid = false;
 
-    void Start()
+    void OnEnable()
     {
-        checkmark.SetActive(false);
+        Reset();
     }
 
     public void OnCheckboxClicked()
     {
         if (isPaid) return;
 
-        ExpenseManager em = FindObjectOfType<ExpenseManager>();
-        if (em == null) return;
-
-        if (em.SpendCoins(cost))
-        {
-            isPaid = true;
+        isPaid = true;
+        if (checkmark != null)
             checkmark.SetActive(true);
-            em.OnExpensePaid();
-            Debug.Log(expenseName + " ödendi: -" + cost);
-        }
-        else
-        {
-            Debug.Log("Yeterli coin yok!");
-        }
+
+        FindObjectOfType<ExpenseManager>().OnExpensePaid();
     }
 
     public void Reset()
     {
         isPaid = false;
-        checkmark.SetActive(false);
+        if (checkmark != null)
+            checkmark.SetActive(false);
     }
 }

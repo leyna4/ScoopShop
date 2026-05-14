@@ -11,13 +11,12 @@ public class LevelManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI levelText;
-    public TextMeshProUGUI coinText;
     public TextMeshProUGUI targetText;
     public GameObject levelCompletePanel;
     public GameObject gameOverPanel;
     public TextMeshProUGUI levelCompleteTitleText;
 
-    private int currentCoins = 0;
+    private int levelCoins = 0;
     private bool levelDone = false;
 
     void Start()
@@ -28,7 +27,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(int index)
     {
         currentLevelIndex = index;
-        currentCoins = 0;
+        levelCoins = 0;
         levelDone = false;
 
         LevelConfig config = levels[currentLevelIndex];
@@ -37,8 +36,6 @@ public class LevelManager : MonoBehaviour
             levelText.text = "Day " + (currentLevelIndex + 1);
         if (targetText != null)
             targetText.text = "Target: " + config.coinTarget;
-        if (coinText != null)
-            coinText.text = "Coins: 0";
 
         BeadSpawner bs = FindObjectOfType<BeadSpawner>();
         if (bs != null)
@@ -48,7 +45,12 @@ public class LevelManager : MonoBehaviour
             bs.maxPerType = config.maxBeadsPerType;
         }
 
-        // Sahneyi sýfýrla
+        PackingManager pm = FindObjectOfType<PackingManager>(true);
+        if (pm != null)
+            pm.levelConfig = config;
+
+       
+
         FindObjectOfType<GameManager>().StartScoopPhase();
         FindObjectOfType<PhoneController>().RingAgain(false);
 
@@ -59,12 +61,10 @@ public class LevelManager : MonoBehaviour
     {
         if (levelDone) return;
 
-        currentCoins += amount;
-        if (coinText != null)
-            coinText.text = "Coins: " + currentCoins;
+        levelCoins += amount;
 
         LevelConfig config = levels[currentLevelIndex];
-        if (currentCoins >= config.coinTarget)
+        if (levelCoins >= config.coinTarget)
         {
             levelDone = true;
             Debug.Log("HEDEFE ULAÞILDI!");
@@ -75,26 +75,21 @@ public class LevelManager : MonoBehaviour
 
     public void LevelComplete()
     {
-        Debug.Log("LevelComplete çaðrýldý - index: " + currentLevelIndex);
-
         PhoneController pc = FindObjectOfType<PhoneController>();
         if (pc != null) pc.enabled = false;
         ScoopController sc = FindObjectOfType<ScoopController>();
         if (sc != null) sc.enabled = false;
 
+        TimerManager timer = FindObjectOfType<TimerManager>();
+        if (timer != null) timer.StopTimer();
+
         LevelConfig config = levels[currentLevelIndex];
-        Debug.Log("Daily Cost: " + config.dailyCost);
 
         if (config.dailyCost > 0)
         {
             ExpenseManager em = FindObjectOfType<ExpenseManager>();
             if (em != null)
-            {
-                Debug.Log("ExpenseManager bulundu, ShowExpenses çaðrýlýyor");
-                em.ShowExpenses(currentCoins);
-            }
-            else
-                Debug.LogError("ExpenseManager bulunamadý!");
+                em.ShowExpenses();
         }
         else
         {
@@ -107,20 +102,30 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void OnTimeUp()
+    {
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+    }
+
+    public void OnOrderTimeUp()
+    {
+        FindObjectOfType<PackingManager>().ForceDeliver();
+    }
+
     public void OnNextLevelClicked()
     {
-        levelCompletePanel.SetActive(false);
+        if (levelCompletePanel != null)
+            levelCompletePanel.SetActive(false);
 
-        // Etkileþimleri aç
         PhoneController pc = FindObjectOfType<PhoneController>();
         if (pc != null) pc.enabled = true;
         ScoopController sc = FindObjectOfType<ScoopController>();
         if (sc != null) sc.enabled = true;
 
         bool isLastLevel = currentLevelIndex >= levels.Count - 1;
-
         if (isLastLevel)
-            LoadLevel(currentLevelIndex); // son levelse ayný leveli tekrar baþlat (endless)
+            LoadLevel(currentLevelIndex);
         else
             LoadLevel(currentLevelIndex + 1);
     }
@@ -129,5 +134,12 @@ public class LevelManager : MonoBehaviour
     {
         gameOverPanel.SetActive(false);
         LoadLevel(currentLevelIndex);
+    }
+
+    public LevelConfig GetCurrentConfig()
+    {
+        if (currentLevelIndex < levels.Count)
+            return levels[currentLevelIndex];
+        return null;
     }
 }

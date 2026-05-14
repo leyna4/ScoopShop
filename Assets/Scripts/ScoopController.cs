@@ -7,9 +7,18 @@ public class ScoopController : MonoBehaviour
     public TutorialManager tutorial;
     private string currentZone = "";
 
+    private int requiredScoops = 1;
+    private int completedScoops = 0;
+
+    public void SetRequiredScoops(int count)
+    {
+        requiredScoops = count;
+        completedScoops = 0;
+        Debug.Log("Gereken kaþýk: " + requiredScoops);
+    }
+
     void OnMouseDown()
     {
-        Debug.Log("OnMouseDown - currentStep: " + (tutorial != null ? tutorial.currentStep.ToString() : "No Tutorial"));
         isDragging = true;
     }
 
@@ -20,25 +29,34 @@ public class ScoopController : MonoBehaviour
         if (currentZone == "Jar" && !isFilled)
         {
             isFilled = true;
-            if (tutorial != null)
-                tutorial.OnScoopDone();
+            if (tutorial != null) tutorial.OnScoopDone();
         }
         else if (currentZone == "Plate" && isFilled)
         {
             isFilled = false;
+            completedScoops++;
+
             BeadSpawner spawner = FindObjectOfType<BeadSpawner>();
             spawner.SpawnFixedBeads();
 
-            ResultManager rm = FindObjectOfType<ResultManager>(true);
-            if (rm != null)
-                rm.ShowResult(spawner.pink, spawner.red, spawner.blue);
-            else
-                Debug.LogError("ResultManager bulunamadý!");
+            Debug.Log("Kaþýk tamamlandý: " + completedScoops + "/" + requiredScoops);
 
-            if (tutorial != null)
-                tutorial.OnPour();
+            if (completedScoops >= requiredScoops)
+            {
+                // Tüm kaþýklar tamamlandý, result paneli göster
+                completedScoops = 0;
+                ResultManager rm = FindObjectOfType<ResultManager>(true);
+                if (rm != null)
+                    rm.ShowResult(spawner.pink, spawner.red, spawner.blue);
+
+                if (tutorial != null) tutorial.OnPour();
+            }
+            else
+            {
+                // Daha fazla kaþýk gerekiyor, ok butonu çýkmasýn
+                Debug.Log("Daha " + (requiredScoops - completedScoops) + " kaþýk daha gerekiyor!");
+            }
         }
-       
     }
 
     void Update()

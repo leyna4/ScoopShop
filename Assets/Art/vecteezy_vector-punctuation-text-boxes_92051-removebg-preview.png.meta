@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9980dcc6999b9634799be78aacd17f1a
+guid: cdc0691089d304444ae7f7b7e3c8d6e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7070431899882351391
-    second: phone_0
+      213: 3371262302658540391
+    second: vecteezy_vector-punctuation-text-boxes_92051-removebg-preview_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: phone_0
+      name: vecteezy_vector-punctuation-text-boxes_92051-removebg-preview_0
       rect:
         serializedVersion: 2
-        x: 75
-        y: 51
-        width: 256
-        height: 509
+        x: 10
+        y: 7
+        width: 288
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1e41ce6d5a7c0ed90800000000000000
-      internalID: -7070431899882351391
+      spriteID: 763b0aad33129ce20800000000000000
+      internalID: 3371262302658540391
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7645d8a8c3d6e1844b666a11b9e1d419
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      phone_0: -7070431899882351391
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

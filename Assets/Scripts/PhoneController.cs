@@ -6,7 +6,6 @@ public class PhoneController : MonoBehaviour
 {
     public GameObject messagePanel;
     public TextMeshProUGUI messageText;
-
     private bool isShaking = true;
     private bool isClickable = true;
     private bool isFeedbackMode = false;
@@ -42,11 +41,28 @@ public class PhoneController : MonoBehaviour
         }
         else
         {
+            LevelConfig config = FindObjectOfType<LevelManager>()?.GetCurrentConfig();
+            int scoopCount = 1;
+            if (config != null)
+                scoopCount = Random.Range(config.minScoops, config.maxScoops + 1);
+
             messagePanel.SetActive(true);
-            messageText.text = "Customer: 1 Scoop";
-            TutorialManager tm = FindObjectOfType<TutorialManager>();
-            if (tm != null) tm.OnPhoneOpened();
+            messageText.text = "Customer: " + scoopCount + " Scoop" + (scoopCount > 1 ? "s" : "");
+
+            // Kaþýk sayýsýný ScoopController'a ilet
+            ScoopController sc = FindObjectOfType<ScoopController>();
+            if (sc != null) sc.SetRequiredScoops(scoopCount);
+
+            TimerManager timer = FindObjectOfType<TimerManager>();
+            if (timer != null && config != null && config.hasTimer)
+                timer.StartOrderTimer(config.timerSeconds);
+
+            TutorialManager tutorialManager = FindObjectOfType<TutorialManager>();
+            if (tutorialManager != null) tutorialManager.OnPhoneOpened();
         }
+        // Yeni sipariþ baþýnda boncuk sayaçlarýný sýfýrla
+        FindObjectOfType<BeadSpawner>().ResetCounts();
+
     }
 
     public void RingAgain(bool feedbackMode)
@@ -62,4 +78,5 @@ public class PhoneController : MonoBehaviour
         isShaking = true;
         isClickable = true;
     }
+
 }

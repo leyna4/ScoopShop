@@ -10,8 +10,7 @@ public class OrderManager : MonoBehaviour
     public void Deliver(int score, bool isCorrect)
     {
         coins += score;
-        if (coinText != null)
-            coinText.text = "" + coins;
+        coinText.text = "" + coins;
 
         LevelManager lm = FindObjectOfType<LevelManager>();
         if (lm != null)
@@ -22,5 +21,17 @@ public class OrderManager : MonoBehaviour
             fm.SetPendingFeedback(isCorrect, score);
 
         FindObjectOfType<PhoneController>().RingAgain(true);
+    }
+
+    public int GetCoins()
+    {
+        return coins;
+    }
+    public void DeductCoins(int amount)
+    {
+        coins -= amount;
+        if (coins < 0) coins = 0;
+        coinText.text = "" + coins;
+        Debug.Log("Gider düþüldü: -" + amount + " | Kalan: " + coins);
     }
 }
