@@ -68,4 +68,8 @@ public class FeedbackManager : MonoBehaviour
             FindObjectOfType<PhoneController>().RingAgain(false);
         }
     }
+    public GameObject GetPanel()
+    {
+        return panel;
+    }
 }

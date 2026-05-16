@@ -10,6 +10,33 @@ public class ScoopController : MonoBehaviour
     private int requiredScoops = 1;
     private int completedScoops = 0;
 
+    [Header("Görsel")]
+    public SpriteRenderer scoopRenderer;
+    public Sprite emptySprite;
+    public Sprite fullSprite;
+    public GameObject beadOnScoop; // kaþýk üstündeki boncuk objesi
+
+    void Start()
+    {
+        SetEmpty();
+    }
+
+    void SetEmpty()
+    {
+        if (scoopRenderer != null && emptySprite != null)
+            scoopRenderer.sprite = emptySprite;
+        if (beadOnScoop != null)
+            beadOnScoop.SetActive(false);
+    }
+
+    void SetFull()
+    {
+        if (scoopRenderer != null && fullSprite != null)
+            scoopRenderer.sprite = fullSprite;
+        if (beadOnScoop != null)
+            beadOnScoop.SetActive(true);
+    }
+
     public void SetRequiredScoops(int count)
     {
         requiredScoops = count;
@@ -29,11 +56,13 @@ public class ScoopController : MonoBehaviour
         if (currentZone == "Jar" && !isFilled)
         {
             isFilled = true;
+            SetFull();
             if (tutorial != null) tutorial.OnScoopDone();
         }
         else if (currentZone == "Plate" && isFilled)
         {
             isFilled = false;
+            SetEmpty();
             completedScoops++;
 
             BeadSpawner spawner = FindObjectOfType<BeadSpawner>();
@@ -43,7 +72,6 @@ public class ScoopController : MonoBehaviour
 
             if (completedScoops >= requiredScoops)
             {
-                // Tüm kaþýklar tamamlandý, result paneli göster
                 completedScoops = 0;
                 ResultManager rm = FindObjectOfType<ResultManager>(true);
                 if (rm != null)
@@ -53,8 +81,7 @@ public class ScoopController : MonoBehaviour
             }
             else
             {
-                // Daha fazla kaþýk gerekiyor, ok butonu çýkmasýn
-                Debug.Log("Daha " + (requiredScoops - completedScoops) + " kaþýk daha gerekiyor!");
+                Debug.Log("Daha " + (requiredScoops - completedScoops) + " kaþýk gerekiyor!");
             }
         }
     }

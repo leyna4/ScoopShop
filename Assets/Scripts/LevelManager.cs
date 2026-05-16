@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour
         FindObjectOfType<PhoneController>().RingAgain(false);
 
         Debug.Log("Level yüklendi: " + config.levelName);
+        FindObjectOfType<DayClockManager>().StartClock(currentLevelIndex + 1);
     }
 
     public void AddCoins(int amount)
@@ -68,6 +69,9 @@ public class LevelManager : MonoBehaviour
         {
             levelDone = true;
             Debug.Log("HEDEFE ULAÞILDI!");
+            // Saati durdur, level complete
+            FindObjectOfType<DayClockManager>().EndDayEarly();
+            LevelComplete();
         }
     }
 
@@ -141,5 +145,23 @@ public class LevelManager : MonoBehaviour
         if (currentLevelIndex < levels.Count)
             return levels[currentLevelIndex];
         return null;
+    }
+    public void OnDayFailed()
+    {
+        Debug.Log("GAME OVER - Hedefe ulaþýlamadý!");
+        PhoneController pc = FindObjectOfType<PhoneController>();
+        if (pc != null) pc.enabled = false;
+        ScoopController sc = FindObjectOfType<ScoopController>();
+        if (sc != null) sc.enabled = false;
+
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+    }
+    public void RestartCurrentLevel()
+    {
+        // Önce sahneyi sýfýrla
+        FindObjectOfType<GameManager>().ResetScene();
+        // Sonra leveli yükle
+        LoadLevel(currentLevelIndex);
     }
 }
